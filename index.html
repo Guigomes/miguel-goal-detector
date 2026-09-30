@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Miguel Goal Detector</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Miguel Goal Detector</h1>
+      <p id="status">Carregando OpenCV…</p>
+    </header>
+
+    <main>
+      <div class="stage">
+        <video id="video" playsinline muted></video>
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <button id="btn-camera" disabled>Ligar câmera</button>
+        <label class="file-button">
+          Carregar vídeo de teste
+          <input id="video-file" type="file" accept="video/*" disabled />
+        </label>
+        <button id="btn-stop" disabled>Parar</button>
+      </div>
+
+      <p id="detection">—</p>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
