@@ -42,9 +42,12 @@ casa, não fazem sentido versionados).
 ### Testando no celular
 
 `getUserMedia` exige contexto seguro (HTTPS), então testar a câmera ao
-vivo no celular direto do `npm run dev` local não funciona. O caminho mais
-simples é publicar um deploy de preview (Vercel/Netlify) e abrir o link no
-celular.
+vivo no celular direto do `npm run dev` local não funciona. Todo push em
+`main` publica automaticamente no GitHub Pages (`.github/workflows/deploy.yml`):
+
+**https://guigomes.github.io/miguel-goal-detector/**
+
+Abre esse link no navegador do celular e toca em "Ligar câmera".
 
 ## Stack
 
