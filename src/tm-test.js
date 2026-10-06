@@ -7,10 +7,13 @@ import "./style.css";
 import "./tm-test.css";
 import { load } from "@teachablemachine/image";
 import { startCamera, stopStream } from "./camera.js";
+import { speak } from "./speech.js";
 
 const MODEL_URL = `${import.meta.env.BASE_URL}tm-model/model.json`;
 const METADATA_URL = `${import.meta.env.BASE_URL}tm-model/metadata.json`;
 const MAX_WORKING_WIDTH = 480;
+const CONFIDENCE_THRESHOLD = 0.8;
+const LOST_GRACE_MS = 800; // evita reanunciar toda hora por causa de 1 frame oscilando
 
 const statusEl = document.getElementById("status");
 const video = document.getElementById("video");
@@ -25,6 +28,8 @@ let model;
 let currentStream = null;
 let running = false;
 let rafId = null;
+let announced = false;
+let lastAboveThresholdAt = 0;
 
 function sizeCanvasToVideo() {
   const sourceWidth = video.videoWidth || MAX_WORKING_WIDTH;
@@ -55,6 +60,23 @@ function renderBars(predictions, labels) {
     .join("");
 }
 
+function announceIfBalloon(predictions) {
+  const now = performance.now();
+  const foundBalloon = predictions.some(
+    (p) => p.className !== "Sem Bexiga" && p.probability > CONFIDENCE_THRESHOLD,
+  );
+
+  if (foundBalloon) {
+    lastAboveThresholdAt = now;
+    if (!announced) {
+      speak("Bexiga encontrada");
+      announced = true;
+    }
+  } else if (announced && now - lastAboveThresholdAt > LOST_GRACE_MS) {
+    announced = false;
+  }
+}
+
 async function tick() {
   if (!running) return;
 
@@ -62,6 +84,7 @@ async function tick() {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     const predictions = await model.predict(canvas);
     renderBars(predictions, model.getClassLabels());
+    announceIfBalloon(predictions);
   }
 
   if (running) rafId = requestAnimationFrame(tick);
@@ -83,6 +106,10 @@ function stopProcessing() {
   currentStream = null;
   video.pause();
   video.srcObject = null;
+
+  window.speechSynthesis?.cancel();
+  announced = false;
+  lastAboveThresholdAt = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   barsEl.innerHTML = "";
