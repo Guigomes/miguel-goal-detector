@@ -12,6 +12,7 @@
     "vite": "^8.3.1"
   },
   "dependencies": {
+    "@teachablemachine/image": "^0.8.5",
     "@techstark/opencv-js": "^5.0.0-release.1"
   }
 }

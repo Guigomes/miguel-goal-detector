@@ -49,6 +49,18 @@ vivo no celular direto do `npm run dev` local não funciona. Todo push em
 
 Abre esse link no navegador do celular e toca em "Ligar câmera".
 
+## Página de teste: modelo do Teachable Machine (`tm-test.html`)
+
+Página separada, fora do app principal, só pra comparar um modelo treinado
+no [Teachable Machine](https://teachablemachine.withgoogle.com/) (3
+classes: Bexiga / Bexiga Real / Sem Bexiga) contra a câmera ao vivo. Não é
+usado pelo app de verdade — é um classificador de **frame inteiro** (diz
+"isso parece X", mas não diz onde na imagem está a bexiga), então sozinho
+não serve pra Entrega 3 (precisa da posição). Pode virar um filtro extra
+em cima da detecção por HSV se o teste for satisfatório. Modelo exportado
+em `public/tm-model/`; rodar via `npm run dev` e abrir `/tm-test.html`, ou
+`https://guigomes.github.io/miguel-goal-detector/tm-test.html` publicado.
+
 ## Stack
 
 - [Vite](https://vitejs.dev/) — dev server e build, sem framework de UI

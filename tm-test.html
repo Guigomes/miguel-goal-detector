@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Teste: modelo Teachable Machine</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/tm-test.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Teste: modelo Teachable Machine</h1>
+      <p id="status">Carregando modelo…</p>
+      <p class="back-link"><a href="/">← voltar pro app</a></p>
+    </header>
+
+    <main>
+      <div class="stage">
+        <video id="video" playsinline muted></video>
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <button id="btn-camera" disabled>Ligar câmera</button>
+        <button id="btn-stop" disabled>Parar</button>
+      </div>
+
+      <div id="bars" class="bars"></div>
+    </main>
+
+    <script type="module" src="/src/tm-test.js"></script>
+  </body>
+</html>

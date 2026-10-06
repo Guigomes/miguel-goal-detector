@@ -1,0 +1,52 @@
+.back-link {
+  margin: 2px 0 0;
+}
+.back-link a {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.bars {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-label {
+  width: 110px;
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.bar-track {
+  flex: 1 1 auto;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--panel);
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 80ms linear;
+}
+
+.bar-value {
+  width: 48px;
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  text-align: left;
+}
