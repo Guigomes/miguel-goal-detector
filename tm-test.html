@@ -3,15 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Teste: modelo Teachable Machine</title>
-    <link rel="stylesheet" href="/src/style.css" />
+    <title>Caça-Bexiga!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/src/tm-test.css" />
   </head>
   <body>
+    <div class="sky-decor" aria-hidden="true">
+      <span class="float-balloon b1">🎈</span>
+      <span class="float-balloon b2">🎈</span>
+      <span class="float-balloon b3">🎈</span>
+      <span class="float-balloon b4">🎈</span>
+    </div>
+
     <header>
-      <h1>Teste: modelo Teachable Machine</h1>
-      <p id="status">Carregando modelo…</p>
-      <p class="back-link"><a href="/">← voltar pro app</a></p>
+      <h1>🎈 Caça-Bexiga! 🎈</h1>
+      <p id="status" class="status-pill">Carregando…</p>
+      <a class="back-link" href="/">⬅️ voltar pro jogo</a>
     </header>
 
     <main>
@@ -21,8 +33,8 @@
       </div>
 
       <div class="controls">
-        <button id="btn-camera" disabled>Ligar câmera</button>
-        <button id="btn-stop" disabled>Parar</button>
+        <button id="btn-camera" class="btn btn-go" disabled>📷 Ligar câmera</button>
+        <button id="btn-stop" class="btn btn-stop" disabled>✋ Parar</button>
       </div>
 
       <div id="bars" class="bars"></div>

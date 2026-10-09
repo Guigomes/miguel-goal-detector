@@ -6,6 +6,11 @@ import { defineConfig } from "vite";
 // modelo treinado no Teachable Machine (não faz parte do app de verdade).
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/miguel-goal-detector/" : "/",
+  // sem isso o dev/preview server do Vite trata o projeto como SPA e
+  // redireciona QUALQUER navegação (inclusive /tm-test.html) pro
+  // index.html — só não quebrava em produção porque o GitHub Pages serve
+  // arquivo estático puro, sem esse fallback.
+  appType: "mpa",
   build: {
     rollupOptions: {
       input: {

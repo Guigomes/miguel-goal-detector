@@ -3,7 +3,6 @@
 // mostra as 3 classes (Bexiga / Bexiga Real / Sem Bexiga) e sua confiança
 // a cada frame, pra decidir se vale a pena integrar de verdade depois.
 
-import "./style.css";
 import "./tm-test.css";
 import { load } from "@teachablemachine/image";
 import { startCamera, stopStream } from "./camera.js";
@@ -14,6 +13,18 @@ const METADATA_URL = `${import.meta.env.BASE_URL}tm-model/metadata.json`;
 const MAX_WORKING_WIDTH = 480;
 const CONFIDENCE_THRESHOLD = 0.8;
 const LOST_GRACE_MS = 800; // evita reanunciar toda hora por causa de 1 frame oscilando
+
+// só visual (emoji/cor de cada classe) — não influencia a detecção
+const LABEL_STYLE = {
+  Bexiga: { emoji: "🎈", color: "#2bd1b8" },
+  "Bexiga Real": { emoji: "🟣", color: "#b98bff" },
+  "Sem Bexiga": { emoji: "🙈", color: "#c9ccd6" },
+};
+const DEFAULT_LABEL_STYLE = { emoji: "❓", color: "#3a2e55" };
+
+function isBalloonHit({ className, probability }) {
+  return className !== "Sem Bexiga" && probability > CONFIDENCE_THRESHOLD;
+}
 
 const statusEl = document.getElementById("status");
 const video = document.getElementById("video");
@@ -47,12 +58,17 @@ function renderBars(predictions, labels) {
     (a, b) => labels.indexOf(a.className) - labels.indexOf(b.className),
   );
   barsEl.innerHTML = ordered
-    .map(({ className, probability }) => {
-      const pct = Math.round(probability * 100);
+    .map((p) => {
+      const pct = Math.round(p.probability * 100);
+      const { emoji, color } = LABEL_STYLE[p.className] ?? DEFAULT_LABEL_STYLE;
+      const cardClass = isBalloonHit(p) ? "bar-card found" : "bar-card";
       return `
-        <div class="bar-row">
-          <span class="bar-label">${className}</span>
-          <span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span>
+        <div class="${cardClass}">
+          <span class="bar-emoji">${emoji}</span>
+          <span class="bar-info">
+            <span class="bar-label">${p.className}</span>
+            <span class="bar-track"><span class="bar-fill" style="width:${pct}%;background:${color}"></span></span>
+          </span>
           <span class="bar-value">${pct}%</span>
         </div>
       `;
@@ -62,9 +78,7 @@ function renderBars(predictions, labels) {
 
 function announceIfBalloon(predictions) {
   const now = performance.now();
-  const foundBalloon = predictions.some(
-    (p) => p.className !== "Sem Bexiga" && p.probability > CONFIDENCE_THRESHOLD,
-  );
+  const foundBalloon = predictions.some(isBalloonHit);
 
   if (foundBalloon) {
     lastAboveThresholdAt = now;
